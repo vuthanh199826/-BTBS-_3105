@@ -27,6 +27,16 @@ public class Manage {
         }
         write(path,students);
     }
+    public void delete(String path, String name) throws IOException {
+        for (int i = 0; i < students.size(); i++) {
+            if(students.get(i).getName().equals(name)){
+                students.remove(i);
+            }
+        }
+
+
+        write(path,students);
+    }
 
     public void search(String path,String name) throws IOException, ClassNotFoundException {
         List<Student> list = new ArrayList<>();

@@ -37,6 +37,15 @@ public class Main {
                         System.out.println("invalid");
                     }
                     break;
+                case 5:
+                    System.out.println("Nhap ten sinh vien muon xoa");
+                    name = sc.nextLine();
+                    if(manage.check(name)){
+                        manage.delete("test1.dat",name);
+                    }else {
+                        System.out.println("invalid");
+                    }
+                    break;
                 case 0:
                     System.exit(0);
             }
@@ -51,6 +60,7 @@ public class Main {
         System.out.println("2.Display");
         System.out.println("3.Edit");
         System.out.println("4.Search");
+        System.out.println("5.Delete");
         System.out.println("0.Exit");
     }
 
