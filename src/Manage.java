@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Manage {
@@ -8,64 +10,79 @@ public class Manage {
     public Manage() {
         students = new ArrayList<>();
     }
+
     public void add(String path, Student student) throws IOException {
         students.add(student);
-        write(path,students);
+        write(path, students);
     }
+
     public void display(String path) throws IOException, ClassNotFoundException {
-        for (Student student:read(path)){
+        for (Student student : read(path)) {
             System.out.println(student);
         }
     }
-    public void edit(String path,String name,Student student1) throws IOException {
-        for (Student student:students){
-            if(student.getName().equals(name)){
+
+    public void edit(String path, String name, Student student1) throws IOException {
+        for (Student student : students) {
+            if (student.getName().equals(name)) {
                 student.setName(student1.getName());
                 student.setAddress(student1.getAddress());
                 student.setAge(student1.getAge());
             }
         }
-        write(path,students);
+        write(path, students);
     }
+
     public void delete(String path, String name) throws IOException {
         for (int i = 0; i < students.size(); i++) {
-            if(students.get(i).getName().equals(name)){
+            if (students.get(i).getName().equals(name)) {
                 students.remove(i);
             }
         }
 
-
-        write(path,students);
+        write(path, students);
     }
 
-    public void search(String path,String name) throws IOException, ClassNotFoundException {
+    public void search(String path, String name) throws IOException, ClassNotFoundException {
         List<Student> list = new ArrayList<>();
-        for (Student student:students){
-            if(student.getName().equals(name)){
+        for (Student student : students) {
+            if (student.getName().equals(name)) {
                 list.add(student);
             }
         }
-        write(path,list);
-        for (Student student:read(path)){
+        write(path, list);
+        for (Student student : read(path)) {
             System.out.println(student);
         }
     }
 
-    public boolean check(String name){
-        for (Student student:students){
-            if(student.getName().equals(name)){
+    public void sort(String path) throws IOException {
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getAge() - o2.getAge();
+            }
+        });
+        write(path, students);
+    }
+
+    public boolean check(String name) {
+        for (Student student : students) {
+            if (student.getName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
-    public void write(String path,List<Student> list) throws IOException {
+
+    public void write(String path, List<Student> list) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(path);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(list);
         objectOutputStream.close();
         fileOutputStream.close();
     }
+
     public List<Student> read(String path) throws IOException, ClassNotFoundException {
         List<Student> list = new ArrayList<>();
         FileInputStream fileInputStream = new FileInputStream(path);
