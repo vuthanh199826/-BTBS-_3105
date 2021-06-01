@@ -11,18 +11,24 @@ public class Manage {
         students = new ArrayList<>();
     }
 
-    public void add(String path, Student student) throws IOException {
+    public void add(String path, Student student, String path2) throws IOException {
         students.add(student);
-        write(path, students);
+        write(path, students );
+        writeToCSV(path2, students);
     }
 
-    public void display(String path) throws IOException, ClassNotFoundException {
+    public void display(String path, String path2) throws IOException, ClassNotFoundException {
+        System.out.println("File dat:");
         for (Student student : read(path)) {
+            System.out.println(student);
+        }
+        System.out.println("File csv:");
+        for (Student student : readFileCSV(path2)) {
             System.out.println(student);
         }
     }
 
-    public void edit(String path, String name, Student student1) throws IOException {
+    public void edit(String path, String name, Student student1,String path2) throws IOException {
         for (Student student : students) {
             if (student.getName().equals(name)) {
                 student.setName(student1.getName());
@@ -31,9 +37,10 @@ public class Manage {
             }
         }
         write(path, students);
+        writeToCSV(path2, students);
     }
 
-    public void delete(String path, String name) throws IOException {
+    public void delete(String path, String name,String path2) throws IOException {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getName().equals(name)) {
                 students.remove(i);
@@ -41,6 +48,7 @@ public class Manage {
         }
 
         write(path, students);
+        writeToCSV(path2, students);
     }
 
     public void search(String path, String name) throws IOException, ClassNotFoundException {
@@ -56,7 +64,7 @@ public class Manage {
         }
     }
 
-    public void sort(String path) throws IOException {
+    public void sort(String path,String path2) throws IOException {
         Collections.sort(students, new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
@@ -64,6 +72,7 @@ public class Manage {
             }
         });
         write(path, students);
+        writeToCSV(path2, students);
     }
 
     public boolean check(String name) {
@@ -75,26 +84,34 @@ public class Manage {
         return false;
     }
 
-    public void write(String path, List<Student> list) throws IOException {
+    public void write(String path, List<Student> list ) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(path);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(list);
         objectOutputStream.close();
         fileOutputStream.close();
     }
-    public void writeToCSV(String path, Student student) throws IOException {
+
+    public void writeToCSV(String path, List<Student> list) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write(student.getName()+","+student.getAge()+","+student.getAddress());
+        for (Student student : list) {
+            bufferedWriter.write(student.getName() + "," + student.getAge() + "," + student.getAddress()+"\n");
+        }
         bufferedWriter.close();
         fileWriter.close();
     }
-    public Student readFileCSV(String path) throws IOException {
+
+    public List<Student> readFileCSV(String path) throws IOException {
+        List<Student> list = new ArrayList<>();
         FileReader fileReader = new FileReader(path);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line = bufferedReader.readLine();
-        String[] arr = line.split(",");
-        return new Student(arr[0],Integer.parseInt(arr[1]),arr[2]);
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] arr = line.split(",");
+            list.add(new Student(arr[0], Integer.parseInt(arr[1]), arr[2]));
+        }
+        return list;
     }
 
     public List<Student> read(String path) throws IOException, ClassNotFoundException {

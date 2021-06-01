@@ -14,16 +14,16 @@ public class Main {
             sc.nextLine();
             switch (choice) {
                 case 1:
-                    manage.add("test1.dat", inputStudent());
+                    manage.add("test1.dat", inputStudent(),"test1.csv");
                     break;
                 case 2:
-                    manage.display("test1.dat");
+                    manage.display("test1.dat","test1.csv");
                     break;
                 case 3:
                     System.out.println("Nhap ten muon sua");
                     String name = sc.nextLine();
                     if (manage.check(name)) {
-                        manage.edit("test1.dat", name, inputStudent());
+                        manage.edit("test1.dat", name, inputStudent(),"test1.csv");
                     } else {
                         System.out.println("invalid");
                     }
@@ -41,20 +41,14 @@ public class Main {
                     System.out.println("Nhap ten sinh vien muon xoa");
                     name = sc.nextLine();
                     if (manage.check(name)) {
-                        manage.delete("test1.dat", name);
+                        manage.delete("test1.dat", name,"test1.csv");
                         System.out.println("Success!");
                     } else {
                         System.out.println("invalid");
                     }
                     break;
                 case 6:
-                    manage.sort("test1.dat");
-                    break;
-                case 7:
-                    manage.writeToCSV("test1.csv",new Student("Thanh",20,"HN"));
-                    System.out.println(manage.readFileCSV("test1.csv"));
-
-
+                    manage.sort("test1.dat","test1.csv");
                     break;
                 case 0:
                     System.exit(0);
@@ -78,11 +72,11 @@ public class Main {
     }
 
     public static void addData(Manage manage) throws IOException {
-        manage.add("test1.dat", new Student("name1", 20, "HN"));
-        manage.add("test1.dat", new Student("name2", 25, "HP"));
-        manage.add("test1.dat", new Student("name3", 22, "TH"));
-        manage.add("test1.dat", new Student("name4", 27, "HD"));
-        manage.add("test1.dat", new Student("name5", 24, "TB"));
+        manage.add("test1.dat", new Student("name1", 20, "HN"),"test1.csv");
+        manage.add("test1.dat", new Student("name2", 25, "HP"),"test1.csv");
+        manage.add("test1.dat", new Student("name3", 22, "TH"),"test1.csv");
+        manage.add("test1.dat", new Student("name4", 27, "HD"),"test1.csv");
+        manage.add("test1.dat", new Student("name5", 24, "TB"),"test1.csv");
     }
 
     public static Student inputStudent() {
