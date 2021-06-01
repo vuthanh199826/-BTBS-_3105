@@ -50,6 +50,12 @@ public class Main {
                 case 6:
                     manage.sort("test1.dat");
                     break;
+                case 7:
+                    manage.writeToCSV("test1.csv",new Student("Thanh",20,"HN"));
+                    System.out.println(manage.readFileCSV("test1.csv"));
+
+
+                    break;
                 case 0:
                     System.exit(0);
                 default:

@@ -82,6 +82,20 @@ public class Manage {
         objectOutputStream.close();
         fileOutputStream.close();
     }
+    public void writeToCSV(String path, Student student) throws IOException {
+        FileWriter fileWriter = new FileWriter(path);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(student.getName()+","+student.getAge()+","+student.getAddress());
+        bufferedWriter.close();
+        fileWriter.close();
+    }
+    public Student readFileCSV(String path) throws IOException {
+        FileReader fileReader = new FileReader(path);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line = bufferedReader.readLine();
+        String[] arr = line.split(",");
+        return new Student(arr[0],Integer.parseInt(arr[1]),arr[2]);
+    }
 
     public List<Student> read(String path) throws IOException, ClassNotFoundException {
         List<Student> list = new ArrayList<>();
